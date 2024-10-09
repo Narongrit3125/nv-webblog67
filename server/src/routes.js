@@ -2,8 +2,9 @@ const UserController = require('./controllers/UserController');
 const UserAuthenController = require('./controllers/UserAuthenController');
 const isAuthenController = require('./authen/isAuthenController');
 const BlogController = require('./controllers/BlogController');
+const SmartphoneController = require('./controllers/SmartphoneController'); // นำเข้า SmartphoneController
 
-let multer = require("multer")
+let multer = require("multer");
 
 // upload section
 let storage = multer.diskStorage({
@@ -11,12 +12,11 @@ let storage = multer.diskStorage({
         callback(null, "./public/uploads");
     },
     filename: function (req, file, callback) {
-        // callback(null, file.fieldname + '-' + Date.now());
         console.log(file);
         callback(null, file.originalname);
     }
-})
-let upload = multer({ storage: storage }).array("userPhoto", 10)
+});
+let upload = multer({ storage: storage }).array("userPhoto", 10);
 
 module.exports = (app) => {
     app.get('/users', isAuthenController, UserController.index);
@@ -31,32 +31,37 @@ module.exports = (app) => {
     app.get('/blog/:blogId', BlogController.show);
     app.get('/blogs', BlogController.index);
 
+    // Routes สำหรับ Smartphone
+    app.post('/smartphone', SmartphoneController.createSmartphone); // สร้าง Smartphone
+    app.get('/smartphones', SmartphoneController.getAllSmartphones); // ดึงข้อมูล Smartphones ทั้งหมด
+    app.get('/smartphone/:id', SmartphoneController.getSmartphoneById); // ดึงข้อมูล Smartphone โดย id
+    app.put('/smartphone/:id', SmartphoneController.updateSmartphone); // อัปเดตข้อมูล Smartphone
+    app.delete('/smartphone/:id', SmartphoneController.deleteSmartphone); // ลบ Smartphone
+
     // upload
     app.post("/upload", function (req, res) {
-        // isUserAuthenticated,
         upload(req, res, function (err) {
             if (err) {
                 return res.end("Error uploading file.");
             }
             res.end("File is uploaded");
-        })
-    }),
+        });
+    });
 
-    //delete file uploaded function
+    // delete file uploaded function
     app.post('/upload/delete', async function (req, res) {
         try {
             const fs = require('fs'); 
-            console.log(req.body.filename)
+            console.log(req.body.filename);
 
             fs.unlink(process.cwd() + '/public/uploads/' + req.body.filename, (err) => {
                 if (err) throw err;
-                res.send("Delete sucessful")
-                // console.log('successfully deleted material file');
+                res.send("Delete successful");
             });
         } catch (err) {
             res.status(500).send({
-                error: 'An error has occured trying to delete file the material'
-            })
+                error: 'An error has occurred trying to delete the file'
+            });
         }
-    })
-}
+    });
+};

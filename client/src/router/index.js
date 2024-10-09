@@ -16,6 +16,10 @@ import BlogEdit from '@/components/Blogs/EditBlog'
 
 import Upload from '@/components/Util/Upload'
 
+import Index from '../components/Smartphone/Index.vue';
+import Create from '../components/Smartphone/Create.vue';
+import Edit from '../components/Smartphone/Edit.vue';
+import Show from '../components/Smartphone/Show.vue';
 Vue.use(Router)
 
 export default new Router({
@@ -75,6 +79,27 @@ export default new Router({
       path: '/upload',
       name: 'upload',
       component: Upload
+    },   
+    {
+      path: '/smartphones',
+      name: 'Index',
+      component: Index,
     },
+    {
+      path: '/smartphone/create',
+      name: 'Create',
+      component: Create,
+    },
+    {
+      path: '/smartphone/edit/:id',
+      name: 'Edit',
+      component: Edit,
+    },
+    {
+      path: '/smartphone/:id',
+      name: 'Show',
+      component: Show,
+    },
+
   ]
 })
