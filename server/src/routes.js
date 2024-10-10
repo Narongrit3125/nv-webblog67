@@ -2,8 +2,7 @@ const UserController = require('./controllers/UserController');
 const UserAuthenController = require('./controllers/UserAuthenController');
 const isAuthenController = require('./authen/isAuthenController');
 const BlogController = require('./controllers/BlogController');
-const SmartphoneController = require('./controllers/SmartphoneController'); // นำเข้า SmartphoneController
-
+const SmartphonesController = require('./controllers/SmartphonesController');
 let multer = require("multer");
 
 // upload section
@@ -31,13 +30,12 @@ module.exports = (app) => {
     app.get('/blog/:blogId', BlogController.show);
     app.get('/blogs', BlogController.index);
 
-    // Routes สำหรับ Smartphone
-    app.post('/smartphone', SmartphoneController.createSmartphone); // สร้าง Smartphone
-    app.get('/smartphones', SmartphoneController.getAllSmartphones); // ดึงข้อมูล Smartphones ทั้งหมด
-    app.get('/smartphone/:id', SmartphoneController.getSmartphoneById); // ดึงข้อมูล Smartphone โดย id
-    app.put('/smartphone/:id', SmartphoneController.updateSmartphone); // อัปเดตข้อมูล Smartphone
-    app.delete('/smartphone/:id', SmartphoneController.deleteSmartphone); // ลบ Smartphone
-
+// Routes สำหรับ Smartphone
+app.post('/smartphone', SmartphonesController.createSmartphone); // สร้าง Smartphone
+app.get('/smartphones', SmartphonesController.getAllSmartphones); // ดึงข้อมูล Smartphones ทั้งหมด
+app.get('/smartphone/:id', SmartphonesController.getSmartphoneById); // ดึงข้อมูล Smartphone โดย id
+app.put('/smartphone/:id', SmartphonesController.updateSmartphone); // อัปเดตข้อมูล Smartphone
+app.delete('/smartphone/:id', SmartphonesController.deleteSmartphone); // ลบ Smartphone
     // upload
     app.post("/upload", function (req, res) {
         upload(req, res, function (err) {

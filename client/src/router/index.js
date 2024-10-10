@@ -16,10 +16,10 @@ import BlogEdit from '@/components/Blogs/EditBlog'
 
 import Upload from '@/components/Util/Upload'
 
-import Index from '../components/Smartphone/Index.vue';
-import Create from '../components/Smartphone/Create.vue';
-import Edit from '../components/Smartphone/Edit.vue';
-import Show from '../components/Smartphone/Show.vue';
+import Index from '../components/Smartphone/Index';
+import Create from '../components/Smartphone/Create';
+import Edit from '../components/Smartphone/Edit';
+import Show from '../components/Smartphone/Show';
 Vue.use(Router)
 
 export default new Router({
