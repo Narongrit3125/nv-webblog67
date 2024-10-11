@@ -16,15 +16,18 @@ import BlogEdit from '@/components/Blogs/EditBlog'
 
 import Upload from '@/components/Util/Upload'
 
-import Index from '../components/Smartphone/Index';
-import Create from '../components/Smartphone/Create';
-import Edit from '../components/Smartphone/Edit';
-import Show from '../components/Smartphone/Show';
+// แทนที่ component สมาร์ทโฟนเดิมด้วย component ใหม่
+import SmartphoneList from '@/components/Smartphone/SmartphoneList';
+import SmartphoneCreate from '@/components/Smartphone/CreateSmartphone';
+import SmartphoneEdit from '@/components/Smartphone/EditSmartphone';
+import SmartphoneShow from '@/components/Smartphone/SmartphoneShow'; // อัปเดตชื่อเป็น SmartphoneShow
+
 Vue.use(Router)
 
 export default new Router({
   mode: 'history',
   routes: [
+    // เส้นทางผู้ใช้
     {
       path: '/users',
       name: 'users',
@@ -45,11 +48,15 @@ export default new Router({
       name: 'user',
       component: UserShow
     },
+
+    // เส้นทางล็อกอิน
     {
       path: '/login',
       name: 'login',
       component: Login
     },
+
+    // เส้นทางบล็อก
     {
       path: '/blogs',
       name: 'blogs',
@@ -70,36 +77,41 @@ export default new Router({
       name: 'blog',
       component: BlogShow
     },
+
+    // เส้นทางคอมเมนต์
     {
       path: '/comments',
       name: 'comments',
       component: CommentIndex
     },
+
+    // เส้นทางอัปโหลดไฟล์
     {
       path: '/upload',
       name: 'upload',
       component: Upload
-    },   
-    {
-      path: '/smartphones',
-      name: 'Index',
-      component: Index,
-    },
-    {
-      path: '/smartphone/create',
-      name: 'Create',
-      component: Create,
-    },
-    {
-      path: '/smartphone/edit/:id',
-      name: 'Edit',
-      component: Edit,
-    },
-    {
-      path: '/smartphone/:id',
-      name: 'Show',
-      component: Show,
     },
 
+    // เส้นทางสมาร์ทโฟน (ปรับให้เหมาะสมตาม RESTful)
+    {
+      path: '/smartphones',
+      name: 'SmartphoneList',
+      component: SmartphoneList,
+    },
+    {
+      path: '/smartphones/create',
+      name: 'SmartphoneCreate',
+      component: SmartphoneCreate,
+    },
+    {
+      path: '/smartphones/edit/:id',
+      name: 'SmartphoneEdit',
+      component: SmartphoneEdit,
+    },
+    {
+      path: '/smartphones/:id',
+      name: 'SmartphoneShow', // ปรับชื่อเป็น SmartphoneShow
+      component: SmartphoneShow, // เปลี่ยนเป็น SmartphoneShow
+    }
   ]
 })

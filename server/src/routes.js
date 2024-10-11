@@ -2,7 +2,7 @@ const UserController = require('./controllers/UserController');
 const UserAuthenController = require('./controllers/UserAuthenController');
 const isAuthenController = require('./authen/isAuthenController');
 const BlogController = require('./controllers/BlogController');
-const SmartphonesController = require('./controllers/SmartphonesController');
+const SmartphonesController = require('./controllers/SmartphoneController');
 let multer = require("multer");
 
 // upload section
@@ -30,13 +30,12 @@ module.exports = (app) => {
     app.get('/blog/:blogId', BlogController.show);
     app.get('/blogs', BlogController.index);
 
-// Routes สำหรับ Smartphone
-app.post('/smartphone', SmartphonesController.createSmartphone); // สร้าง Smartphone
-app.get('/smartphones', SmartphonesController.getAllSmartphones); // ดึงข้อมูล Smartphones ทั้งหมด
-app.get('/smartphone/:id', SmartphonesController.getSmartphoneById); // ดึงข้อมูล Smartphone โดย id
-app.put('/smartphone/:id', SmartphonesController.updateSmartphone); // อัปเดตข้อมูล Smartphone
-app.delete('/smartphone/:id', SmartphonesController.deleteSmartphone); // ลบ Smartphone
-    // upload
+    app.get('/smartphones', SmartphonesController.index); // ดึงข้อมูลสมาร์ทโฟนทั้งหมด
+    app.post('/smartphones', SmartphonesController.create); // สร้างสมาร์ทโฟน
+    app.get('/smartphone/:smartphoneId', SmartphonesController.show); // ดึงข้อมูลสมาร์ทโฟนตาม ID
+    app.put('/smartphone/:smartphoneId', SmartphonesController.put); // อัปเดตสมาร์ทโฟน
+    app.delete('/smartphone/:smartphoneId', SmartphonesController.remove); // ลบสมาร์ทโฟน
+    // Upload section
     app.post("/upload", function (req, res) {
         upload(req, res, function (err) {
             if (err) {
@@ -46,7 +45,7 @@ app.delete('/smartphone/:id', SmartphonesController.deleteSmartphone); // ลบ
         });
     });
 
-    // delete file uploaded function
+    // Delete file uploaded function
     app.post('/upload/delete', async function (req, res) {
         try {
             const fs = require('fs'); 

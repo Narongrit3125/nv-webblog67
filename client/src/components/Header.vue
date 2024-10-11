@@ -3,7 +3,7 @@
     <div class="nv-navbar">
       <ul class="nav">
         <li><router-link :to="{ name: 'blogs' }">Blogs</router-link></li>
-        <li><router-link :to="{ name: 'Index' }">Smartphones</router-link></li>
+        <li><router-link :to="{ name: 'SmartphoneList' }">Smartphones</router-link></li>
         <li><router-link :to="{ name: 'users' }">Users</router-link></li>
         <li><router-link :to="{ name: 'comments' }">Comments</router-link></li>
         <!-- Show login/logout menu based on isLogin state -->
