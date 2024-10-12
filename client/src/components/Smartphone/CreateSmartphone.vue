@@ -27,19 +27,18 @@
         <input type="text" v-model="pictureUrls" placeholder="Enter image URLs, separated by commas" class="form-control" />
       </div>
 
-      <!-- แสดงรูปภาพที่อัปโหลดผ่าน URL -->
       <div class="pictures">
         <transition-group tag="ul" class="pictures-list">
           <li v-for="picture in pictures" :key="picture.id" class="picture-item">
             <img
-              style="margin-bottom: 5px"
               :src="picture.name"
               alt="picture image"
               class="picture-image"
             />
-            <br />
-            <button @click.prevent="useThumbnail(picture.name)" class="btn btn-thumbnail">Thumbnail</button>
-            <button @click.prevent="delFile(picture)" class="btn btn-delete">Delete</button>
+            <div class="picture-actions">
+              <button @click.prevent="useThumbnail(picture.name)" class="btn btn-thumbnail">Thumbnail</button>
+              <button @click.prevent="delFile(picture)" class="btn btn-delete">Delete</button>
+            </div>
           </li>
         </transition-group>
       </div>
@@ -62,7 +61,7 @@ export default {
       smartphone: {
         brand: "",
         model: "",
-        description: "", // ใช้ textarea แทนการใช้ CKEditor
+        description: "",
         price: "",
         country: "",
         pictures: "", // จะถูกแปลงเป็น JSON string ก่อนส่งไป backend
@@ -71,36 +70,28 @@ export default {
   },
   methods: {
     async createSmartphone() {
-      // แยก URL ของรูปภาพที่ใส่โดยผู้ใช้ (คั่นด้วย comma)
       if (this.pictureUrls) {
         const urls = this.pictureUrls.split(',').map(url => url.trim());
         this.pictures = urls.map((url, index) => ({
           id: index + 1,
-          name: url, // ใช้ URL เป็นค่าของชื่อรูปภาพ
+          name: url,
         }));
       }
-
-      // แปลงรูปภาพเป็น JSON string และจัดเก็บใน smartphone.pictures
       this.smartphone.pictures = JSON.stringify(this.pictures);
 
       try {
-        // ส่งข้อมูลสมาร์ทโฟนใหม่ไปยัง backend
         await SmartphoneService.post(this.smartphone);
-        // กลับไปที่หน้าแสดงรายการสมาร์ทโฟนหลังจากสร้างสำเร็จ
         this.$router.push({ name: "SmartphoneList" });
       } catch (err) {
-        console.error(err); // แสดงข้อผิดพลาดถ้ามีปัญหาในการสร้างสมาร์ทโฟน
+        console.error(err);
       }
     },
     async delFile(picture) {
-      let result = confirm("Want to delete?");
-      if (result) {
-        // ลบรูปภาพจากรายการ
+      if (confirm("Want to delete?")) {
         this.pictures = this.pictures.filter(p => p.id !== picture.id);
       }
     },
     useThumbnail(filename) {
-      // ฟังก์ชันสำหรับตั้งค่าภาพ thumbnail ถ้าจำเป็น
       console.log("Thumbnail set to:", filename);
     }
   }
@@ -111,28 +102,43 @@ export default {
 .smartphone-form {
   max-width: 600px;
   margin: 0 auto;
-  padding: 20px;
-  background-color: #f9f9f9;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  background-color: #fefefe;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  font-family: 'Helvetica Neue', sans-serif;
+}
+
+h1 {
+  text-align: center;
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 20px;
 }
 
 .form-group {
-  margin-bottom: 15px;
+  margin-bottom: 20px;
 }
 
 label {
   display: block;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
   font-weight: bold;
+  font-size: 1rem;
+  color: #444;
 }
 
 .form-control {
   width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc;
+  padding: 12px;
+  border: 1px solid #ddd;
   border-radius: 5px;
-  box-sizing: border-box;
+  font-size: 1rem;
+  transition: border-color 0.3s;
+}
+
+.form-control:focus {
+  border-color: #333;
 }
 
 .pictures {
@@ -145,16 +151,20 @@ label {
 
 .pictures-list {
   display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
+  gap: 20px;
 }
 
 .picture-item {
   position: relative;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  padding: 5px;
   background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  transition: transform 0.3s ease;
+}
+
+.picture-item:hover {
+  transform: scale(1.05);
 }
 
 .picture-image {
@@ -163,34 +173,42 @@ label {
   border-radius: 5px;
 }
 
-.btn {
-  padding: 8px 12px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  text-decoration: none;
-  color: white;
-}
-
-.btn-create {
-  background-color: #4CAF50;
+.picture-actions {
+  display: flex;
+  gap: 10px;
   margin-top: 10px;
 }
 
+.btn {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.3s;
+}
+
+.btn-create {
+  background-color: #333;
+  color: white;
+}
+
 .btn-create:hover {
-  background-color: #45a049;
+  background-color: #555;
 }
 
 .btn-thumbnail {
-  background-color: #2196F3;
+  background-color: #FFD700;
+  color: white;
 }
 
 .btn-thumbnail:hover {
-  background-color: #0b7dda;
+  background-color: #FFC107;
 }
 
 .btn-delete {
   background-color: #F44336;
+  color: white;
 }
 
 .btn-delete:hover {
