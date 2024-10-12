@@ -14,11 +14,14 @@ export default {
     // ดึงข้อมูลสมาร์ทโฟนตาม ID
     show(smartphoneId) {
         return Api().get(`smartphone/${smartphoneId}`)
-            .then(response => response.data)
-            .catch(error => {
-                console.error(`Error fetching smartphone with ID ${smartphoneId}:`, error)
-                throw error
+            .then(response => {
+                console.log(response.data); // Inspect the response here
+                return response.data;
             })
+            .catch(error => {
+                console.error(`Error fetching smartphone with ID ${smartphoneId}:`, error);
+                throw error;
+            });
     },
     
     // เพิ่มข้อมูลสมาร์ทโฟนใหม่

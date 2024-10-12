@@ -20,7 +20,7 @@ import Upload from '@/components/Util/Upload'
 import SmartphoneList from '@/components/Smartphone/SmartphoneList';
 import SmartphoneCreate from '@/components/Smartphone/CreateSmartphone';
 import SmartphoneEdit from '@/components/Smartphone/EditSmartphone';
-import SmartphoneShow from '@/components/Smartphone/SmartphoneShow'; // อัปเดตชื่อเป็น SmartphoneShow
+import SmartphoneDetail from '@/components/Smartphone/SmartphoneDetail'; // อัปเดตชื่อเป็น SmartphoneShow
 
 Vue.use(Router)
 
@@ -110,8 +110,8 @@ export default new Router({
     },
     {
       path: '/smartphones/:id',
-      name: 'SmartphoneShow', // ปรับชื่อเป็น SmartphoneShow
-      component: SmartphoneShow, // เปลี่ยนเป็น SmartphoneShow
-    }
+      name: 'SmartphoneDetail',
+      component: SmartphoneDetail, // Your component that displays the smartphone details
+  }
   ]
 })
